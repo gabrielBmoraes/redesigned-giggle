@@ -1,0 +1,132 @@
+  <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ex. 22</title>
+</head>
+
+<style>
+    #div_parteUm {}
+
+    #div_parteDois {
+        display: none;
+
+    }
+
+    #buttonVoltar {
+        display: none;
+    }
+
+    span {
+        margin: 0;
+        color: red;
+    }
+</style>
+
+<body>
+    <div id="div_parteUm">
+        Quantidade de números que irão ser sorteados: <input id="ipt_qtdSorteio" placeholder="Valor entre 10 e 50"> <br>
+        Qual divisibilidade você quer encontrar? <input id="ipt_divisao" placeholder="Valor entre 1 e 10"> <br>
+        <button onclick="sortear()">Sortear</button>
+    </div>
+
+    <div id="div_parteDois">
+        <div id="div_mensagem"></div> <br>
+        <button onclick="voltar()" id="buttonVoltar">Voltar</button>
+    </div>
+
+
+
+</body>
+
+</html>
+<script>
+    var qtdSorteio = 0;
+    var divisao = 0;
+    var erro = false;
+    var numeroAleatorio = 0;
+    var menorNumero = 200;
+    var maiorNumero = 0;
+    var media = 0;
+
+    function sortear() {
+
+        validar()
+
+
+        if (erro == false) {
+
+            div_parteUm.style.display = 'none';
+            div_parteDois.style.display = 'block';
+
+            for (var rodadas = qtdSorteio; rodadas >= 1; rodadas--) {
+
+                numeroAleatorio = Number(((Math.random() * 99) + 1).toFixed());
+
+
+                if (numeroAleatorio % divisao == 0) {
+                    div_mensagem.innerHTML += `${rodadas}º - <span>${numeroAleatorio}</span> <br> `
+                } else {
+
+                    div_mensagem.innerHTML += `${rodadas}º - ${numeroAleatorio} <br> `
+                }
+
+                if (numeroAleatorio > maiorNumero) {
+                    maiorNumero = numeroAleatorio;
+                }
+
+                if (numeroAleatorio < menorNumero) {
+                    menorNumero = numeroAleatorio;
+                }
+
+                media += numeroAleatorio;
+            }
+
+            div_mensagem.innerHTML += `<br> O maior número sorteado foi: ${maiorNumero} <br> O menor número sorteado foi: ${menorNumero} <br> A média de todos os números sorteados é: ${(media / qtdSorteio).toFixed(2)} `
+
+
+            buttonVoltar.style.display = 'block';
+
+        }
+
+    }
+
+    function validar() {
+
+        erro = false;
+        qtdSorteio = Number(ipt_qtdSorteio.value)
+        divisao = Number(ipt_divisao.value);
+
+        if (qtdSorteio < 10 || qtdSorteio > 50 || isNaN(qtdSorteio)) {
+            alert("O valor de números sorteados devem estar entre 10 e 50!");
+            ipt_qtdSorteio.value = '';
+            erro = true;
+        }
+
+        if (divisao < 1 || divisao > 10 || isNaN(divisao)) {
+            alert("O valor de divisibidade deve estar entre 1 e 10!")
+            ipt_divisao.style = '';
+            erro = true;
+        }
+
+    }
+
+    function voltar() {
+        div_parteUm.style.display = 'block';
+        div_parteDois.style.display = 'none';
+        ipt_divisao.value = '';
+        ipt_qtdSorteio.value = '';
+        div_mensagem.innerHTML = '';
+
+        qtdSorteio = 0;
+        divisao = 0;
+        numeroAleatorio = 0;
+        menorNumero = 200;
+        maiorNumero = 0;
+        media = 0;
+    }
+
+</script>
